@@ -1,0 +1,24 @@
+﻿@*@model IEnumerable<PublicationViewModel>*@
+@{
+    ViewData["Title"] = "Search Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Przeszukaj literaturę z zakresu nauk przyrodniczych</h1>
+    <form class="d-flex" asp-controller="Home" asp-action="Search" asp-route-recordsOnPage="25">
+        <input class="form-control me-sm-2" placeholder="Szukaj" type="text" name="query" />
+        <input class="btn btn-primary btn-lg" type="submit" value="Szukaj" />
+    </form>
+@*    <div class="list-group">
+        @foreach(var obj in Model)
+        {
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">@obj.Title</h5>
+            </div>
+            <p class="mb-1">@obj.Author</p>
+            <small>@obj.JournalTitle, @obj.FirstPublicationDate</small>
+        </a>
+        }
+    </div>*@
+</div>

@@ -1,0 +1,135 @@
+﻿@model CurrentPageQueryViewModel
+
+<form class="d-flex" asp-controller="Home" asp-action="Search" asp-route-recordsOnPage="25">
+    <input class="form-control me-sm-2" placeholder="Szukaj" type="text" name="query" value="@Model.Query" />
+    <input class="btn btn-primary btn-lg" type="submit" value="Szukaj" />
+</form>
+<h5 name=recordsCount>Znaleziono @Model.RecordCount wyników</h5>
+    <div class="list-group">
+    @foreach (var obj in Model.Publications)
+        {
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">@obj.Title</h5>
+            </div>
+            <p class="mb-1">@obj.Author</p>
+            <small>@obj.JournalTitle, @obj.FirstPublicationDate</small>
+        </a>
+        }
+    </div>
+
+@{
+    int totalPages = @ViewData["TotalPages"] == null ? 0 : int.Parse(@ViewData["TotalPages"].ToString());
+    int currentPage = @ViewData["CurrentPage"] == null ? 0 : int.Parse(@ViewData["CurrentPage"].ToString());
+
+    string hideDecreasePageByFive = "";
+    string hideDecreasePageByTwo = "";
+    string hideDecreasePageByOne = "";
+    string hideIncreasePageByOne = "";
+    string hideIncreasePageByTwo = "";
+    string hideIncreasePageByFive = "";
+
+    if (currentPage + 5 > totalPages)
+    {
+        hideIncreasePageByFive = "hidden";
+
+        if (totalPages == currentPage)
+        {
+            hideIncreasePageByTwo = "hidden";
+            hideIncreasePageByOne = "hidden";
+        }
+        else if (totalPages == currentPage + 1)
+        {
+            hideIncreasePageByTwo = "hidden";
+        }
+    }
+
+    if (currentPage < 6)
+    {
+        hideDecreasePageByFive = "hidden";
+        if (currentPage == 1) 
+        {
+            hideDecreasePageByTwo = "hidden";
+            hideDecreasePageByOne = "hidden";
+        }
+        else if (currentPage == 2)
+        {
+            hideDecreasePageByTwo = "hidden";
+        }
+    }
+}
+
+<div>
+    <ul class="pagination">
+        <li @hideDecreasePageByFive>
+            <a asp-action="Search"
+               asp-controller="Home"
+               asp-route-query="@Model.Query"
+               asp-route-page="@ViewData["DecreasePageByFive"]"
+               asp-route-recordsOnPage="25"
+               class="page-link">
+                ...
+            </a>
+        </li>
+        <li @hideDecreasePageByTwo>
+           <a asp-action="Search"
+               asp-controller="Home"
+               asp-route-query="@Model.Query"
+               asp-route-page="@ViewData["DecreasePageByTwo"]"
+               asp-route-recordsOnPage="25"
+               class="page-link">
+                @ViewData["DecreasePageByTwo"]
+        </a>
+        </li>
+        <li @hideDecreasePageByOne>
+            <a asp-action="Search"
+               asp-controller="Home"
+               asp-route-query="@Model.Query"
+               asp-route-page="@ViewData["DecreasePageByOne"]"
+               asp-route-recordsOnPage="25"
+               class="page-link">
+                @ViewData["DecreasePageByOne"]
+            </a>
+        </li>
+        <li>
+            <a asp-action="Search"
+               asp-controller="Home"
+               asp-route-query="@Model.Query"
+               asp-route-page="@ViewData["CurrentPage"]"
+               asp-route-recordsOnPage="25"
+               class="page-link active">
+                @ViewData["CurrentPage"]
+            </a>
+        </li>
+        <li @hideIncreasePageByOne>
+            <a asp-action="Search"
+               asp-controller="Home"
+               asp-route-query="@Model.Query"
+               asp-route-page="@ViewData["IncreasePageByOne"]"
+               asp-route-recordsOnPage="25"
+               class="page-link">
+                @ViewData["IncreasePageByOne"]
+            </a>
+        </li>
+        <li @hideIncreasePageByTwo>
+            <a asp-action="Search"
+               asp-controller="Home"
+               asp-route-query="@Model.Query"
+               asp-route-page="@ViewData["IncreasePageByTwo"]"
+               asp-route-recordsOnPage="25"
+               class="page-link">
+                @ViewData["IncreasePageByTwo"]
+            </a>
+        </li>
+        <li @hideIncreasePageByFive>
+            <a asp-action="Search"
+               asp-controller="Home"
+               asp-route-query="@Model.Query"
+               asp-route-page="@ViewData["IncreasePageByFive"]"
+               asp-route-recordsOnPage="25"
+               class="page-link">
+                ...
+            </a>
+        </li>
+    </ul>
+</div>
